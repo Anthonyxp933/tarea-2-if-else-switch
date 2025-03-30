@@ -1,0 +1,86 @@
+#include <iostream> //PRIMER VIDEO
+using namespace std;
+//funcion que sume dos valores 
+int suma(int num1,int num2,int num3){
+	int resultado = 0;
+	resultado = num1+num2+num3;
+	return resultado;
+}
+//metodo
+void suma(int &num1,int &num2){
+	int resultado = 0;
+	num1+=1;//11
+	num2+=1;//21
+	resultado = num1+num2;//32
+	cout<<resultado<<endl;
+}
+main() {
+	int a=10,b = 20;
+	suma(a,b);
+	cout<<"a: "<<a<<endl;
+	cout<<"b: "<<b<<endl;
+	
+	system("pause");
+}; 
+
+//SEGUNDO VIDEO
+#include <iostream>
+using namespace std;
+struct Estudiante{
+	int *codigo;
+	string *nombre;
+	int **notas;
+	
+	
+};
+main() {
+	Estudiante estudiante;
+
+    int fila = 0, columna = 0;
+    cout<<"cuantos estudiantes desea agregar?: ";
+    cin>>fila;
+    
+    cout<<"cuantas notas por estudiantes desea agregar?: ";
+    cin>>columna;
+    
+    estudiante.codigo = new int [fila];
+    estudiante.nombre = new string [fila];
+    estudiante.notas = new int *[fila];
+    for (int i=0;i<fila;i++){
+    	estudiante.notas[i] = new int[columna];
+    	
+	}
+    cout<<"_____________________________ingreso de notas_____________________________"<<endl;
+    for (int i=0;i<fila;i++){
+    	cout<<"codigo["<<i<<"]:";
+    	cin>>estudiante.codigo[i];
+    	cin.ignore();
+    	cout<<"nombre completo["<<i<<"]:";
+    	getline(cin,estudiante.nombre[i]);
+    	for (int ii=0;ii<columna;ii++){
+    		cout<<"ingrese nota["<<ii<<"] :";
+    		cin>>*(*(estudiante.notas+i)+ii);
+        }
+        cout<<"________________________________"<<endl;
+    }
+    cout<<"______Mostrar datos_______"<<endl;
+    
+    
+    for (int i=0;i<fila;i++){
+    	cout<<"codigo["<<i<<"]:"<<estudiante.codigo[i]<<endl;
+    	cout<<"nombre completo["<<i<<"]:"<<estudiante.nombre[i]<<endl;
+    	for (int ii=0;ii<columna;ii++){
+    		cout<<"ingrese nota["<<ii<<"] :"<<*(*(estudiante.notas+i)+ii);
+        }
+        cout<<"________________________________"<<endl;
+    }
+    
+    for (int i=0;i<fila;i++){
+        delete[]estudiante.notas[i];
+	}
+	     delete[] estudiante.codigo;
+    delete[] estudiante.nombre;
+    delete[] estudiante.notas;
+    
+	system("pause");
+};
