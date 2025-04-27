@@ -1,0 +1,161 @@
+                                                                                        // primer codigo 
+
+#include <iostream>
+#include <string>
+using namespace std;
+struct Estudiante {
+    int id;
+    string nombre;
+    string apellido;
+    float notas[4];
+};
+int main() {
+    int N;
+    cout << "Ingrese la cantidad de estudiantes: ";
+    cin >> N;
+    Estudiante estudiantes[N];
+    for (int i = 0; i < N; i++) {
+        cout << "Ingrese ID del estudiante: ";
+        cin >> estudiantes[i].id;
+        cout << "Ingrese nombre del estudiante: ";
+        cin >> estudiantes[i].nombre;
+        cout << "Ingrese apellido del estudiante: ";
+        cin >> estudiantes[i].apellido;
+        for (int j = 0; j < 4; j++) {
+            cout << "Ingrese nota " << j + 1 << ": ";
+            cin >> estudiantes[i].notas[j];
+        }
+    }
+    for (int i = 0; i < N; i++) {
+        float suma = 0;
+        for (int j = 0; j < 4; j++) {
+            suma += estudiantes[i].notas[j];
+        }
+        float promedio = suma / 4;
+        cout << "Estudiante: " << estudiantes[i].nombre << " " << estudiantes[i].apellido << endl;
+        cout << "Promedio: " << promedio << endl;
+        if (promedio > 60) {
+            cout << "Estado: Aprobado" << endl;
+        } else {
+            cout << "Estado: Reprobado" << endl;
+        }
+    }
+    return 0;
+}
+
+
+                                                                              // segundo codigo
+
+#include <iostream>
+#include <string>
+struct Estudiante {
+    int id;
+    std::string nombre;
+    std::string apellido;
+    float nota1;
+    float nota2;
+    float nota3;
+    float nota4;
+};
+void calcularPromedio(Estudiante* estudiante) {
+    float promedio = (estudiante->nota1 + estudiante->nota2 + estudiante->nota3 + estudiante->nota4) / 4;
+    std::cout << "El promedio de " << estudiante->nombre << " " << estudiante->apellido << " es: " << promedio << std::endl;
+    if (promedio > 60) {
+        std::cout << "El estudiante aprobo." << std::endl;
+    } else {
+        std::cout << "El estudiante reprobo." << std::endl;
+    }
+}
+int main() {
+    int N;
+    std::cout << "Ingrese la cantidad de estudiantes: ";
+    std::cin >> N;
+    Estudiante* estudiantes = new Estudiante[N];
+    for (int i = 0; i < N; i++) {
+        std::cout << "Ingrese ID del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].id;
+        std::cout << "Ingrese nombre del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].nombre;
+        std::cout << "Ingrese apellido del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].apellido;
+        std::cout << "Ingrese nota 1 del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].nota1;
+        std::cout << "Ingrese nota 2 del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].nota2;
+        std::cout << "Ingrese nota 3 del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].nota3;
+        std::cout << "Ingrese nota 4 del estudiante " << i + 1 << ": ";
+        std::cin >> estudiantes[i].nota4;
+        calcularPromedio(&estudiantes[i]);
+    }
+    delete[] estudiantes;
+    return 0;
+}
+
+                                                                          // tercer codigo
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+struct Estudiante {
+    int id;
+    string nombres;
+    string apellidos;
+    float nota1;
+    float nota2;
+    float nota3;
+    float nota4;
+    float promedio;
+    string resultado;
+};
+void calcularPromedio(Estudiante &est) {
+    est.promedio = (est.nota1 + est.nota2 + est.nota3 + est.nota4) / 4;
+    est.resultado = (est.promedio > 60) ? "Aprobo" : "Reprobo";
+}
+void guardarEstudiante(Estudiante &est) {
+    ofstream archivo("notas.dat", ios::binary | ios::app);
+    archivo.write(reinterpret_cast<char*>(&est), sizeof(est));
+    archivo.close();
+}
+void mostrarEstudiantes() {
+    Estudiante est;
+    ifstream archivo("notas.dat", ios::binary);
+    while (archivo.read(reinterpret_cast<char*>(&est), sizeof(est))) {
+        cout << "ID: " << est.id << ", Nombres: " << est.nombres << ", Apellidos: " << est.apellidos 
+             << ", Promedio: " << est.promedio << ", Resultado: " << est.resultado << endl;
+    }
+    archivo.close();
+}
+int main() {
+    int N;
+    cout << "Ingrese la cantidad de estudiantes: ";
+    cin >> N;
+    Estudiante* estudiantes = new Estudiante[N];
+    for (int i = 0; i < N; i++) {
+        cout << "Ingrese ID: ";
+        cin >> estudiantes[i].id;
+        cout << "Ingrese Nombres: ";
+        cin >> estudiantes[i].nombres;
+        cout << "Ingrese Apellidos: ";
+        cin >> estudiantes[i].apellidos;
+        cout << "Ingrese Nota 1: ";
+        cin >> estudiantes[i].nota1;
+        cout << "Ingrese Nota 2: ";
+        cin >> estudiantes[i].nota2;
+        cout << "Ingrese Nota 3: ";
+        cin >> estudiantes[i].nota3;
+        cout << "Ingrese Nota 4: ";
+        cin >> estudiantes[i].nota4;
+        calcularPromedio(estudiantes[i]);
+        guardarEstudiante(estudiantes[i]);
+    }
+    cout << "Estudiantes registrados:" << endl;
+    mostrarEstudiantes();
+
+    delete[] estudiantes;
+    return 0;
+}
+
